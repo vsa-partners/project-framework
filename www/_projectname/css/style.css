@@ -1,0 +1,41 @@
+/* 
+	//
+	STYLE.CSS
+	Author: VSA Partners
+	//
+
+	CONTROLLING STYLE SHEET
+		* imports supporting style sheets
+		* sets base colors and sizes
+*/
+
+@import url(reset.css);
+
+/* type */
+body, select, input, textarea, table { 
+	font-family: Arial, sans-serif; 
+	font-size: 13px; 
+	line-height:1.22;
+	color: #444;
+}
+a, a:active, a:visited { color:#607890; }
+a:hover { color:#036; }
+::-moz-selection{ background: #FF5E99; color:#fff; }
+::selection { background:#FF5E99; color:#fff; } 
+a:link { -webkit-tap-highlight-color: #FF5E99; } 
+
+/* set block-level margins */
+h1, h2, h3, h4, h5, h6, p, blockquote, ul, ol, fieldset, table, pre {
+	margin-bottom: 1.5em;
+}
+
+/* nav helpers */
+nav ul, ul.nav { list-style:none; margin-left: 0; }
+.nav { margin-left: 0; padding: 0; }
+.nav li { list-style: none; float: left; display: block; }
+.nav:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+* html .nav { height: 1%; }
+.nav, nav ul { margin-bottom: 0; margin-top: 0; }
+
+/* layout helpers */
+.col_ { margin-right: 15px; }
