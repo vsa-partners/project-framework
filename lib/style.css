@@ -109,40 +109,8 @@ body.loaded {
 #logo { 
 	display: block; width: 55px; height: 62px;
 	background: url(vsa-logo.png) no-repeat;
-/*
-	opacity: 0;
-	-webkit-transition: opacity 2s ease-out 1s;
-*/	
 }
 
-/*
-.loaded #logo { 
-	opacity: 1;
-}
-#branding { 
-	display: block;
-	background: url(vsa-logo.png) no-repeat;
-}
-#logo {
-	background: url(vsa-logo-inverse.png) no-repeat;
-	-webkit-transition: opacity 2s;
-}
-.loaded #logo {
-	
-	opacity: 0;
-}
-header, article, aside, footer {
-	opacity: 0;
-	-webkit-transition: opacity 2s;
-}
-
-header {
-	color: white;
-	opacity: 1;
-	-webkit-transition-property: color;
-	-webkit-transition-duration: 2s;	
-}
-*/
 .loaded header { color: black; }
 .loaded header, .loaded article, .loaded aside, .loaded footer { opacity: 1; }
 
@@ -179,12 +147,6 @@ article, aside { line-height: 1.5;  }
 }
 
 .deliverable { 
-/*
-	margin-bottom: 5px; 
-	padding-top: 10px; 
-	padding-bottom: 10px;
-
-*/
 	padding: 0;
 	margin: 0;
 }
@@ -303,9 +265,6 @@ footer {
 	width: 100%;
 	clear: both;
 	padding-top: 25px;
-/*	
-	border-top: solid 1px black;
-*/
 	font-size: 10px;
 	text-transform: uppercase;
 }
@@ -319,16 +278,6 @@ footer {
 		padding-left: 25px;
 		border-left: solid 1px black;
 	}
-
-
-
-
-
-
-
-
-
-
 
 /* print */
 @media print {

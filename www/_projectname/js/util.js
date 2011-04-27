@@ -171,18 +171,6 @@
 			return regexEmail.test(str);
 		}
 		
-		/**
-		 * Returns whether or not the current browser supports the `opacity` CSS property.  (IE6, 7, and 8)
-		 * {returns} Boolean.
-		 */
-		this.supportsOpacity = function supportsOpacity () {
-			if (typeof isOpacitySupported === 'undefined') {
-				isOpacitySupported = 'opacity' in document.createElement('span').style;
-			}
-
-			return isOpacitySupported;
-		};
-		
 		this.pxToInt = function (str) {
 			return (+ str.replace(/px$/i, '')) || 0;
 		};
