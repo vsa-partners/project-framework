@@ -3,7 +3,7 @@ VSA PROJECT TEMPLATE
 
 There are a few things that need to be done before you can enjoy using this template.
 
-CHANGE \_projectname DIRECTORY NAME
+CHANGE `_projectname` DIRECTORY NAME
 ---
 
 This should be the name of the client or something specific to the theme. This directory will hold all presentation and behavioral layer files. 
