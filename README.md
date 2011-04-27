@@ -21,14 +21,6 @@ Search for `_projectname` and replace with real project name (e.g., `_vsadotcom`
 
 * The are some at the top and the bottom. Get them all. Don't miss the `/*test for jquery*/` script block!
 
-UPDATE GA CODE IN `_elements.html` AND `_template.html`
----
-
-Update, replace or remove Google Analytics script. It is recommended to use two tracking buckets – production and dev – and do a test comparing `__domainName` to `document.location`.
-
-__This allows for gathering test data during development and during staging review. Since GA takes about a day to show results it's better to start testing the metrics early.__
-
-
 UPDATE BODY `id` AND `class` NAMES in `_template.html`
 ---
 
