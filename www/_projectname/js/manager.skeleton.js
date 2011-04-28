@@ -9,7 +9,7 @@ Dependencies: jQuery, Modernizr, vsa.js
 (function skeletonManager () {
 	var self;
 
-	vsa.manager('hash', {
+	vsa.manager('skeleton', {
 		init: function() {
 			self = this;
 		},
