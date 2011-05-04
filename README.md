@@ -1,9 +1,9 @@
-VSA PROJECT TEMPLATE
+VSA PROJECT TEMPLATE - v.0.1.0
 ===
 
 There are a few things that need to be done before you can enjoy using this template.
 
-CHANGE \_projectname DIRECTORY NAME
+CHANGE `_projectname` DIRECTORY NAME
 ---
 
 This should be the name of the client or something specific to the theme. This directory will hold all presentation and behavioral layer files. 
@@ -20,14 +20,6 @@ UPDATE `_projectname` IN `_elements.html` AND `_template.html`.
 Search for `_projectname` and replace with real project name (e.g., `_vsadotcom`). The name should be something short but understandable.
 
 * The are some at the top and the bottom. Get them all. Don't miss the `/*test for jquery*/` script block!
-
-UPDATE GA CODE IN `_elements.html` AND `_template.html`
----
-
-Update, replace or remove Google Analytics script. It is recommended to use two tracking buckets – production and dev – and do a test comparing `__domainName` to `document.location`.
-
-__This allows for gathering test data during development and during staging review. Since GA takes about a day to show results it's better to start testing the metrics early.__
-
 
 UPDATE BODY `id` AND `class` NAMES in `_template.html`
 ---
