@@ -16,9 +16,9 @@ The important takeaways from Semantic Versioning:
   * If you add a new feature, increment the `minor` number.
   * If you make a change that causes the framework to be backwards-incompatible... talk to @jeremyckahn.
 
-The current version is specified at the top of README.md.
-
 If you make _any_ change to the code that causes a version change, you __MUST__ document it in the changelog.  This will prevent any confusion amongst those using this framework.
+
+The versions are recorded in [changelog.md](https://github.com/vsa-partners/project-framework/blob/master/changelog.md)
 
 Issue tracking
 ---
