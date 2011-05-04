@@ -48,13 +48,13 @@ pre {
 }
 input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
-.ie6 input { vertical-align: text-bottom; }
+* html input { vertical-align: text-bottom; }
 label, input[type=button], input[type=submit], button { cursor: pointer; }
 ::-moz-selection{ text-shadow: none; }
 ::selection { text-shadow: none; } 
 html { overflow-y: scroll; }
 button {  width: auto; overflow: visible; }
-.ie7 img { -ms-interpolation-mode: bicubic; }
+*+html img { -ms-interpolation-mode: bicubic; }
 /* helpers */
 .ir_ { display:block; text-indent:-999em; overflow:hidden; background-repeat: no-repeat; }
 .hidden_ { display:none; visibility:hidden; } 
