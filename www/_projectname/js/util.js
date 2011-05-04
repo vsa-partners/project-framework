@@ -12,11 +12,11 @@
 		// THIS NEEDS TO BE CUSTOMIZED FOR YOUR PROJECT.
 		_projectPath = '_projectname/',
 		
-		_swfObject = 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js',
+		_swfObject = _projectPath + 'js/swfobject.js'
 		_ddBelated = _projectPath + 'js/dd_belatedpng.js',
 		_flashPlayer = _projectPath + 'flash/video-player.swf',
-		_pngFixElems = '.pngfix_',
-		isOpacitySupported;
+		_pngFixElems = '.pngfix_';
+
 	function Util() {
 		this.isIE = !$.support.htmlSerialize;
 		this.isIE6 = this.isIE && _browserVersion === 6;
@@ -86,15 +86,45 @@
 			} else {
 				_embed();
 			}
-		};
+		};		
+		
+		/*
+			how you get the parameters to this function is up to you. 
+			most common use is to have a link like such (Flash requires an absolute URL) ...
+			
+			<a href="http://site.com/media/video/video.m4v" data-poster="media/video/poster.jpg" class="video">
+				watch video
+			</a>
+			
+			in most cases, videos are common sizes so they can be hardcoded into the event binding.
+			if there are two sizes use classes to differentiate.
+			
+				var isXLVideo = $(this).hasClass('xl'),
+					w = isXLVideo ? 800 : 640,
+					h = isXLVideo ? 640 : 480;
+			
+			if they are completely variable then add the data-width and data-height attributes
+			
+			so to init ...
+			
+			$('a.video').click(function(e){
+				e.preventDefault();
+				var $t = $(this),
+					w = 640,
+					h = 480;
+				var vars = {};
+					vars.poster = $t.attr('data-poster');
+					
+				//code to build your #container
+				VSA.embedVideo('#container',$t.attr('href'),w,h,vars);
+			});
+					
+		*/
 		this.embedVideo = function(container,videoUrl,width,height,vars) {				
 			//use flashplayer
-			var player = this.basePath + _flashPlayer,
-				vvars = vars || {};
-				vvars.videoPath = vurl;
-				vvars.videoWidth = width;
-				vvars.videoHeight = height;
-				vvars.autoPlay = 'true';
+			var videovars = vars || {};
+				videovars.src = videoUrl;
+				videovars.autoPlay = 'true';
 			//use system player
 			if(Modernizr.video && Modernizr.video.h264) {
 				var container = this.wrap(container);
@@ -102,16 +132,16 @@
 					'src': vurl,
 					'controls': 'controls'
 				});
-				if(vvars.posterPath) {
-					$video.attr('poster',vvars.posterPath);
+				if(videovars.posterPath) {
+					$video.attr('poster',videovars.posterPath);
 				}				
 				$video.height(height).width(width).appendTo($('#'+container));
-				if(vvars.autoPlay) {
+				if(videovars.autoPlay) {
 					$video[0].play();
 				}
 				return;
 			}
-			this.embedFlash(container,player,width,height,vvars);
+			this.embedFlash(container,this.basePath + _flashPlayer,width,height,videovars);
 			return;
 		};
 		//IE6 transparency
