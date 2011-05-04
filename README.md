@@ -1,4 +1,4 @@
-VSA PROJECT TEMPLATE
+VSA PROJECT TEMPLATE - v.0.1.0
 ===
 
 There are a few things that need to be done before you can enjoy using this template.
