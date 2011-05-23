@@ -6,7 +6,7 @@ VSA Partners - Manager Module
 Dependencies: jQuery, Modernizr, vsa.js
 *******************************************************/
 
-(function skeletonManager () {
+(function skeletonManager ($) {
 	var self;
 
 	vsa.manager('skeleton', {
@@ -28,4 +28,4 @@ Dependencies: jQuery, Modernizr, vsa.js
 
 		}
 	});
-}());
+}(jQuery));
