@@ -435,7 +435,7 @@ Dependencies: jQuery, Modernizr
 
 
 		/**
-		*  Return the natural height of an element - the cimputed height that the element would have if
+		*  Return the natural height of an element - the computed height that the element would have if
 		*  it did not have any inline styles acting upon it (such as those applied with JavaScript)
 		*  @param {HTMLElement} el The element to get the natural height of
 		*  @returns {Number}
