@@ -58,9 +58,13 @@ button {  width: auto; overflow: visible; }
 /* helpers */
 .ir_ { display:block; text-indent:-999em; overflow:hidden; background-repeat: no-repeat; }
 .hidden_ { display:none; visibility:hidden; } 
-.visuallyhidden_ { position:absolute !important;    
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px); }
+.visuallyhidden_ {
+  position: absolute !important;
+  height: 1px; width: 1px; 
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
 .invisible_ { visibility: hidden; }
 .clear_:after, .row_:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 .clear_, .row_ { display: inline-block; }
