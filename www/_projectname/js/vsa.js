@@ -7,22 +7,16 @@ VSA Partners JavaScript Framework
 Dependencies: jQuery, Modernizr
 *******************************************************/
 
-(function (window, $, Modernizr) {
+(function (window, $) {
 
 	// Private vars
-	var managers = {},
-		locks = {},
-		vsa = function () {},
+	var vsa = function () {},
 		_public,
 		prop;
-
+	
 	// Check dependencies
 	if (!$) {
 		throw 'jQuery is not defined.';
-	}
-	
-	if (!Modernizr) {
-		throw 'Modernizr is not defined.';
 	}
 	
 	/* Private methods ********************************/
@@ -30,33 +24,11 @@ Dependencies: jQuery, Modernizr
 		return (typeof fn === 'function');
 	}
 	
-	function logError (msg) {
-		if (console && console.error) {
-			console.error(msg);
-		}
-	}
-	
-	/**
-	 * Parses out an action name and return whether or not such a public method actually exists.
-	 * @param {String} actionName The name to check, given in `"managerName.actionName"` format.
-	 * @returns {Boolean}
-	 */
-	function isPublicAction (actionName) {
-		var actionNameParts = actionName.split('.'),
-			managerName = actionNameParts[0],
-			memberName = actionNameParts[1];
-		
-		return (managers[managerName] && typeof managers[managerName].__public[memberName] !== 'undefined');
-	}
-	
-	function splitEvents (events) {
-		events = $.trim(events);
-		return events.split(/\s{1,}/);
-	}
 	/******************************** Private methods */
 	
-	/* Public methods *********************************/
-	_public = {		
+	/* Public members *********************************/
+	_public = {
+		
 		/**
 		*  Checks to see if an element has a given inline style set on it.
 		*  @param{HTMLElement} el The element to inspect
@@ -116,7 +88,7 @@ Dependencies: jQuery, Modernizr
 			return naturalHeight;
 		},
 		
-		getOuterHTML: function (el) {
+		getOuterHTML: function getOuterHTML (el) {
 			var ret,
 				wrapper;
 
@@ -146,24 +118,81 @@ Dependencies: jQuery, Modernizr
 					return winText;
 				}
 			});
+		},
+		
+		isValidEmail: function isValidEmail (str) {
+			var regexEmail = /^([a-zA-Z0-9_\-])([a-zA-Z0-9_\-\.]*)@(\[((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}|((([a-zA-Z0-9\-]+)\.)+))([a-zA-Z]{2,}|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\])$/;
+			return regexEmail.test(str);
+		},
+		
+		pxToInt: function pxToInt (str) {
+			return (+ str.replace(/px$/i, '')) || 0;
+		},
+		
+		setCookie: function setCookie (name,value,days) {
+			var expires = '', date = new Date();
+			if (days) {
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				expires = '; expires=' + date.toGMTString();
+			}
+			document.cookie = name+'='+value+expires+'; path=/';
+		},
+		
+		readCookie: function readCookie (name) {
+			var nameEQ = name + '=',
+				ca = document.cookie.split(';');
+			for(var i=0;i < ca.length;i++) {
+				var c = ca[i];
+				while (c.charAt(0) == ' ') {
+					c = c.substring(1, c.length)
+				}
+				if (c.indexOf(nameEQ) == 0) {
+					return c.substring(nameEQ.length, c.length)
+				}
+			}
+			return null;
+		},
+		
+		eraseCookie: function eraseCookie (name) {
+			this.setCookie(name,'',-1);
+		},
+		
+		trackPage: function trackPage (url) {
+			//log('url = ' + url);
+			try { _gaq.push(['_trackPageview',url]); } catch(err) { log(err) }
+			return;
+		},
+		
+		trackEvent: function trackEvent (category, action, label) {
+			//log('category = ' + category + ' | action = ' + action +  ' | label = ' + label);
+			try { _gaq.push(['_trackEvent',category,action,label]); } catch(err) { log(err) }	
+			return;
 		}
-	};
-	/********************************* Public methods */
+	},
+	/********************************* Public members */
 	
-	// Create the global instance of `vsa`...
-	
-	// Inherit from jQuery!  No, let's not do that...
-	//vsa.prototype = $;
-	window.vsa = new vsa();
-	
-	// ...and attach all the public methods.
-	for (prop in _public) {
-		if (_public.hasOwnProperty(prop)) {
-			window.vsa[prop] = _public[prop];
+	$(function () {
+		$html = $('html');
+		
+		// Create the global instance of `vsa`...
+		window.vsa = new vsa();
+
+		// ...and attach all the public methods.
+		for (prop in _public) {
+			if (_public.hasOwnProperty(prop)) {
+				window.vsa[prop] = _public[prop];
+			}
 		}
-	}
+	});
 	
-}(window, jQuery, Modernizr));
+}(this, jQuery));
+
+
+
+
+
+
+
 
 
 
@@ -174,7 +203,7 @@ Dependencies: jQuery, Modernizr
 
 */
 (function($){
-	var _ns = 'VSA',
+	var _ns = 'legacy',
 		_ua = navigator.userAgent,
 		_browserVersion = parseInt($.browser.version,10),
 		$html = $('html'),
@@ -331,110 +360,15 @@ Dependencies: jQuery, Modernizr
 			}
 		})(_pngFixElems,this.isIE6,this.basePath);
 		//tracking
-		this.trackPage = function (url) {
-			//log('url = ' + url);
-			try { _gaq.push(['_trackPageview',url]); } catch(err) { log(err) }
-			return;
-		};			
-		this.trackEvent = function (category, action, label) {
-			//log('category = ' + category + ' | action = ' + action +  ' | label = ' + label);
-			try { _gaq.push(['_trackEvent',category,action,label]); } catch(err) { log(err) }	
-			return;
-		};
-		//cookies
-		this.setCookie = function(name,value,days) {
-			var expires = '', date = new Date();
-			if (days) {
-				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-				expires = '; expires=' + date.toGMTString();
-			}
-			document.cookie = name+'='+value+expires+'; path=/';
-		};
-		this.readCookie = function(name) {
-			var nameEQ = name + '=',
-				ca = document.cookie.split(';');
-			for(var i=0;i < ca.length;i++) {
-				var c = ca[i];
-				while (c.charAt(0) == ' ') {
-					c = c.substring(1, c.length)
-				}
-				if (c.indexOf(nameEQ) == 0) {
-					return c.substring(nameEQ.length, c.length)
-				}
-			}
-			return null;
-		};
-		this.eraseCookie = function(name) {
-			this.setCookie(name,'',-1);
-		};
-		//forms		
-		this.isValidEmail = function(str) {
-			var regexEmail = /^([a-zA-Z0-9_\-])([a-zA-Z0-9_\-\.]*)@(\[((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}|((([a-zA-Z0-9\-]+)\.)+))([a-zA-Z]{2,}|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\])$/;
-			return regexEmail.test(str);
-		}
-		
-		this.pxToInt = function (str) {
-			return (+ str.replace(/px$/i, '')) || 0;
-		};
-		
-		/**
-		*  Checks to see if an element has a given inline style set on it.
-		*  @param{HTMLElement} el The element to inspect
-		*  @param{String} style The inline style you would like to know about
-		*  @returns{Boolean|null|undefined} Returns `true` is the string is present, `false` if it is not, `null` if there are no inline styles set on `el`, and `undefined` if `style` is not a string. 
-		*/
-		this.hasInlineStyle = function hasInlineStyle (el, style) {
-			var inlineStyles = $(el).attr('style'),
-				i;
-			
-			if (!inlineStyles) {
-				// There are no inline styles at all, return null (this is handy!)
-				return null;
-			}
-			
-			if (typeof style === 'string') {
-				
-				inlineStyles = inlineStyles.toLowerCase().replace(/\s/g, '').split(';')
-			
-				for (i = 0; i < inlineStyles.length; i++) {
-					if (inlineStyles[i].split(':')[0] === style.toLowerCase()) {
-						return true;
-					}
-				}
-			
-				return false;
-			}
-			
-			// `style` was not a string, just return `undefined` (this is implicit, anyways)
-			return undefined;
-		};
 		
 		
-		/**
-		*  Return the natural height of an element - the cimputed height that the element would have if
-		*  it did not have any inline styles acting upon it (such as those applied with JavaScript)
-		*  @param {HTMLElement} el The element to get the natural height of
-		*  @returns {Number}
-		*/
-		this.getNaturalHeight = function getNaturalHeight (el) {
-			var currCssHeight,
-				naturalHeight;
-
-			el = $(el);
-
-			if (this.hasInlineStyle(el, 'height')) {
-				currCssHeight = el.css('height');
-				el.css({ 'height': 'auto' });
-				naturalHeight = el.height();
-				el.css({ 'height': currCssHeight });
-			} else {
-				el.css({ 'height': 'auto' });
-				naturalHeight = el.height();
-				el.css({ 'height': '' });
-			}
-
-			return naturalHeight;
-		}
 	}
 	window[_ns] = new Util;
+	
+	
+	$(function () {
+		$.extend(window.vsa, window[_ns])
+		delete window[_ns];
+	})
+	
 })(jQuery);
