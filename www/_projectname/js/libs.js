@@ -1,3 +1,5 @@
+// A bunch of useful non-VSA libraries, all in one tasty file.  This tasty file won't need to change terribly often.
+
 // Underscore.js 1.1.6
 // (c) 2011 Jeremy Ashkenas, DocumentCloud Inc.
 // Underscore is freely distributable under the MIT license.

@@ -19,8 +19,8 @@ Dependencies: jQuery, Modernizr
 		// THIS NEEDS TO BE CUSTOMIZED FOR YOUR PROJECT.
 		_projectPath = '_projectname/',
 		
-		_swfObject = _projectPath + 'js/swfobject.js'
-		_ddBelated = _projectPath + 'js/dd_belatedpng.js',
+		_swfObject = _projectPath + 'js/lib/swfobject.js'
+		_ddBelated = _projectPath + 'js/lib/dd_belatedpng.js',
 		_flashPlayer = _projectPath + 'flash/video-player.swf',
 		_pngFixElems = '.pngfix_';
 	
