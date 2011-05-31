@@ -9,10 +9,20 @@ Dependencies: jQuery, Modernizr
 
 (function (window, $) {
 
-	// Private vars
-	var vsa = function () {},
-		_public,
-		prop;
+	var prop,
+		_ua = navigator.userAgent,
+		_browserVersion = parseInt($.browser.version,10),
+		$html = $('html'),
+		_flashVersionSupported = '9',
+		/*assists in loading files from any directory level*/
+		
+		// THIS NEEDS TO BE CUSTOMIZED FOR YOUR PROJECT.
+		_projectPath = '_projectname/',
+		
+		_swfObject = _projectPath + 'js/swfobject.js'
+		_ddBelated = _projectPath + 'js/dd_belatedpng.js',
+		_flashPlayer = _projectPath + 'flash/video-player.swf',
+		_pngFixElems = '.pngfix_';
 	
 	// Check dependencies
 	if (!$) {
@@ -27,7 +37,17 @@ Dependencies: jQuery, Modernizr
 	/******************************** Private methods */
 	
 	/* Public members *********************************/
-	_public = {
+	
+	function vsa () {
+		
+		
+		this.isIE = !$.support.htmlSerialize;
+		this.isIE6 = this.isIE && _browserVersion === 6;
+		this.isIPhone = _ua.match(/iPhone/i) || _ua.match(/iPod/i) ? true : false;
+		this.isAndroid = _ua.match(/Android/i) ? true : false;
+		this.isMobile = this.isAndroid || this.isIPhone;
+		this.isIPad = _ua.match(/iPad/i) ? true : false;
+		
 		
 		/**
 		*  Checks to see if an element has a given inline style set on it.
@@ -35,7 +55,7 @@ Dependencies: jQuery, Modernizr
 		*  @param{String} style The inline style you would like to know about
 		*  @returns{Boolean|null|undefined} Returns `true` is the string is present, `false` if it is not, `null` if there are no inline styles set on `el`, and `undefined` if `style` is not a string. 
 		*/
-		hasInlineStyle: function hasInlineStyle (el, style) {
+		this.hasInlineStyle = function hasInlineStyle (el, style) {
 			var inlineStyles = $(el).attr('style'),
 				i;
 
@@ -59,16 +79,15 @@ Dependencies: jQuery, Modernizr
 
 			// `style` was not a string, just return `undefined` (this is implicit, anyways)
 			return undefined;
-		},
-
-
+		};
+		
 		/**
 		*  Return the natural height of an element - the computed height that the element would have if
 		*  it did not have any inline styles acting upon it (such as those applied with JavaScript)
 		*  @param {HTMLElement} el The element to get the natural height of
 		*  @returns {Number}
 		*/
-		getNaturalHeight: function getNaturalHeight (el, withPadding) {
+		this.getNaturalHeight = function getNaturalHeight (el, withPadding) {
 			var currCssHeight,
 				naturalHeight;
 
@@ -86,9 +105,9 @@ Dependencies: jQuery, Modernizr
 			}
 
 			return naturalHeight;
-		},
+		};
 		
-		getOuterHTML: function getOuterHTML (el) {
+		this.getOuterHTML = function getOuterHTML (el) {
 			var ret,
 				wrapper;
 
@@ -100,13 +119,13 @@ Dependencies: jQuery, Modernizr
 			}
 
 			return ret;
-		},
+		};
 		
-		degToRad: function degToRad (deg) {
+		this.degToRad = function degToRad (deg) {
 			return (deg / 180) * Math.PI;
-		},
+		};
 		
-		externalizeLinks: function externalizeLinks () {
+		this.externalizeLinks = function externalizeLinks () {
 			$('a[rel="external"]').attr({
 				target: "_blank",
 				title: function () {
@@ -118,27 +137,27 @@ Dependencies: jQuery, Modernizr
 					return winText;
 				}
 			});
-		},
+		};
 		
-		isValidEmail: function isValidEmail (str) {
+		this.isValidEmail = function isValidEmail (str) {
 			var regexEmail = /^([a-zA-Z0-9_\-])([a-zA-Z0-9_\-\.]*)@(\[((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}|((([a-zA-Z0-9\-]+)\.)+))([a-zA-Z]{2,}|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\])$/;
 			return regexEmail.test(str);
-		},
+		};
 		
-		pxToInt: function pxToInt (str) {
+		this.pxToInt = function pxToInt (str) {
 			return (+ str.replace(/px$/i, '')) || 0;
-		},
+		};
 		
-		setCookie: function setCookie (name,value,days) {
+		this.setCookie = function setCookie (name,value,days) {
 			var expires = '', date = new Date();
 			if (days) {
 				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 				expires = '; expires=' + date.toGMTString();
 			}
 			document.cookie = name+'='+value+expires+'; path=/';
-		},
+		};
 		
-		readCookie: function readCookie (name) {
+		this.readCookie = function readCookie (name) {
 			var nameEQ = name + '=',
 				ca = document.cookie.split(';');
 			for(var i=0;i < ca.length;i++) {
@@ -151,80 +170,24 @@ Dependencies: jQuery, Modernizr
 				}
 			}
 			return null;
-		},
+		};
 		
-		eraseCookie: function eraseCookie (name) {
+		this.eraseCookie = function eraseCookie (name) {
 			this.setCookie(name,'',-1);
-		},
+		};
 		
-		trackPage: function trackPage (url) {
+		this.trackPage = function trackPage (url) {
 			//log('url = ' + url);
 			try { _gaq.push(['_trackPageview',url]); } catch(err) { log(err) }
 			return;
-		},
+		};
 		
-		trackEvent: function trackEvent (category, action, label) {
+		this.trackEvent = function trackEvent (category, action, label) {
 			//log('category = ' + category + ' | action = ' + action +  ' | label = ' + label);
 			try { _gaq.push(['_trackEvent',category,action,label]); } catch(err) { log(err) }	
 			return;
-		}
-	},
-	/********************************* Public members */
-	
-	$(function () {
-		$html = $('html');
+		};
 		
-		// Create the global instance of `vsa`...
-		window.vsa = new vsa();
-
-		// ...and attach all the public methods.
-		for (prop in _public) {
-			if (_public.hasOwnProperty(prop)) {
-				window.vsa[prop] = _public[prop];
-			}
-		}
-	});
-	
-}(this, jQuery));
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Author: VSA Partners
-
-*/
-(function($){
-	var _ns = 'legacy',
-		_ua = navigator.userAgent,
-		_browserVersion = parseInt($.browser.version,10),
-		$html = $('html'),
-		_flashVersionSupported = '9',
-		/*assists in loading files from any directory level*/
-		
-		// THIS NEEDS TO BE CUSTOMIZED FOR YOUR PROJECT.
-		_projectPath = '_projectname/',
-		
-		_swfObject = _projectPath + 'js/swfobject.js'
-		_ddBelated = _projectPath + 'js/dd_belatedpng.js',
-		_flashPlayer = _projectPath + 'flash/video-player.swf',
-		_pngFixElems = '.pngfix_';
-
-	function Util() {
-		this.isIE = !$.support.htmlSerialize;
-		this.isIE6 = this.isIE && _browserVersion === 6;
-		this.isIPhone = _ua.match(/iPhone/i) || _ua.match(/iPod/i) ? true : false;
-		this.isAndroid = _ua.match(/Android/i) ? true : false;
-		this.isMobile = this.isAndroid || this.isIPhone;
-		this.isIPad = _ua.match(/iPad/i) ? true : false;
 		this.isStandalone = (function() {
 			var _is = ("standalone" in window.navigator) && window.navigator.standalone;
 			if(_is) { $html.addClass('standalone'); }
@@ -359,16 +322,9 @@ Dependencies: jQuery, Modernizr
 				_apply();
 			}
 		})(_pngFixElems,this.isIE6,this.basePath);
-		//tracking
-		
-		
 	}
-	window[_ns] = new Util;
 	
+	vsa.prototype = Backbone;
+	window.vsa = new vsa();
 	
-	$(function () {
-		$.extend(window.vsa, window[_ns])
-		delete window[_ns];
-	})
-	
-})(jQuery);
+}(this, jQuery));
