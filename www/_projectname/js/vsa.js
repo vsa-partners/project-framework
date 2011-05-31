@@ -323,7 +323,7 @@ Dependencies: jQuery, Modernizr
 		})(_pngFixElems,this.isIE6,this.basePath);
 	}
 	
-	vsa.prototype = Backbone;
+	//vsa.prototype = Backbone;
 	window.vsa = new vsa();
 	
 	//open external links in new window
