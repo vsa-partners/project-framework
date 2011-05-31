@@ -40,17 +40,16 @@ Generally, however, do not rely on the body id and classes to do all the work. P
 
 If you don't have a strategy yet, then remove them until you do.
 
-UPDATE `_projectname` in `util.js`
+UPDATE `_projectname` in `vsa.js`
 ---
 
-Open `util.js` and change `_projectPath` var to real project name.
+Open `vsa.js` and change `_projectPath` var to real project name.
 
 This is a little wonky but it exposes two helpful functions - V.projectPath and V.basePath - esp. for loading Flash.
 
 
 ````
-	var videoPlayerSWF = VSA.projectPath + 'flash/video-player.swf';
-	var videoPosterPath = VSA.basePath + 'media/video/video-poster.jpg';
+	var videoPlayerSWF = _projectPath + 'flash/video-player.swf';
 ````
 	
 SET DEFAULT STYLES IN `styles.css`
