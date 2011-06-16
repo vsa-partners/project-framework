@@ -208,8 +208,29 @@ Dependencies: jQuery, Modernizr
 		})();
 		//paths
 		this.projectPath = (function() {
-			var path = $('link[href*=\''+_projectPath+'\']').eq(0).attr('href');
-			return path.substring(0,path.indexOf('css'));
+			/*var path = $('link[href*=\''+_projectPath+'\']').eq(0).attr('href');
+			return path.substring(0,path.indexOf('css'));*/
+			
+			var path
+			
+			$('link[href*=\''+_projectPath+'\']').each(function (index, el) {
+				var el,
+					href;
+				
+				el = $(el);
+				href = el.attr('href');
+				
+				if (/(http:\/\/|https:\/\/)/.test(href) && (new RegExp('^' + window.location.origin)).test(href)
+					|| !(/(http:\/\/|https:\/\/)/).test(href)) {
+					// we are looking at a same-domain URL
+					path = href.replace(window.location.origin, '');
+					path = path.substring(0,path.indexOf('css'))
+					return false;
+				}
+			});
+			
+			return path;
+			
 		})();
 		this.basePath = this.projectPath.replace(_projectPath,'');	
 		this.addBasePath = function(args) {
