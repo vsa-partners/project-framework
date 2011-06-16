@@ -292,7 +292,7 @@ Dependencies: jQuery, Modernizr
 			if(Modernizr.video && Modernizr.video.h264) {
 				var container = this.wrap(container);
 				var $video = $(document.createElement('video')).attr({
-					'src': vurl,
+					'src': videovars.src,
 					'controls': 'controls'
 				});
 				if(videovars.posterPath) {
